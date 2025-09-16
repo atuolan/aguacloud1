@@ -1,5 +1,5 @@
 /*
-  * 💖 吸一口甜的 💖
+  * 💖 吹響夜晚的樹中歌 💖
   * 作者: 阿瓜雲在上
   */
 
@@ -12,7 +12,7 @@
   --pixel-panel-bg: #2a3a3a; /* 左右侧边栏和顶栏面板背景色：苔藓石 */
   --pixel-container-bg: #3a4a4a; /* 消息气泡等容器背景色：幽静湖水 */
   --pixel-border: #668080; /* 主要边框颜色：雾中青石 */
-  --pixel-text: #d0e0e0; /* 主要文字颜色：月光白 */
+  --pixel-text: #ffffff; /* 主要文字颜色：月光白 */
   --pixel-text-light: #a0b0b0; /* 较浅的文字颜色，用于次要信息：晨雾灰 */
   --pixel-accent: #e0c080; /* 强调色，用于高亮和交互元素：琥珀光 */
   --pixel-accent-hover: #f0d090; /* 鼠标悬停时的强调色：亮琥珀 */
@@ -35,7 +35,7 @@ body,
 #chat,
 .mes_text {
   font-size: 14px; /* 設定基礎字體大小為14像素 */
-  color: var(--pixel-text); /* 應用深棕色作為主要文字顏色 */
+  color: var(--pixel-text); /* 應用月光白作為主要文字顏色 */
   /* 禁用圖片平滑渲染，保持像素風格的清晰邊緣 */
   image-rendering: pixelated; /* 現代瀏覽器標準 */
   image-rendering: -moz-crisp-edges; /* Firefox兼容 */
@@ -44,7 +44,7 @@ body,
 
 /* body: 設定整個頁面的背景顏色 */
 body {
-  background-color: var(--pixel-bg) !important; /* 奶油草莓粉背景 */
+  background-color: var(--pixel-bg) !important; /* 深林夜色背景 */
 }
 
 /* ============================================
@@ -94,7 +94,7 @@ body {
 #user-settings-block,
 #Backgrounds,
 #rm_extensions_block {
-  /* 柔和的對角線漸變背景：從玫瑰粉到花白色 */
+  /* 柔和的對角線漸變背景：從苔藓石到深邃色 */
   background: linear-gradient(135deg, var(--pixel-panel-bg), #2a3a3a) !important;
   border: none !important; /* 移除邊框 */
   /* 移除像素風格多層陰影 */
@@ -190,7 +190,7 @@ body {
 
 /* .mes: 每一條聊天消息的容器（包含頭像、名稱、內容） */
 .mes {
-  background-color: var(--pixel-container-bg) !important; /* 純白牛奶色背景 */
+  background-color: var(--pixel-container-bg) !important; /* 幽静湖水背景 */
   border: 2px solid var(--pixel-border) !important; /* 淺粉色邊框 */
   border-radius: 4px !important; /* 輕微圓角柔化邊緣 */
   box-shadow: 2px 2px 0px var(--pixel-shadow) !important; /* 薰衣草紫陰影 */
@@ -312,7 +312,7 @@ div[is_user='true'] .avatar img {
 #mes_stop,
 #send_but {
   background: linear-gradient(135deg, var(--pixel-accent), var(--pixel-accent-hover)) !important; /* 應用橙色漸變背景 */
-  color: #101a1a !important; /* 應用深邃樹影色文字 */
+  color: #19231e !important; /* 應用深邃樹影色文字 */
   border: 2px solid var(--pixel-accent-shadow) !important; /* 設置橙色陰影色作為邊框 */
   border-radius: 4px !important; /* 輕微圓角 */
   box-shadow: 2px 2px 0px 0px var(--pixel-accent-shadow) !important; /* 像素風格陰影 */
@@ -320,7 +320,7 @@ div[is_user='true'] .avatar img {
   position: relative; /* 為按下效果提供定位基準 */
   top: 0; /* 初始垂直位置 */
   left: 0; /* 初始水平位置 */
-  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.3); /* 添加浅色文字阴影 */
+  text-shadow: 1px 1px 0px rgba(105, 89, 89, 0.3); /* 添加浅色文字阴影 */
   font-size: 0.8rem !important; /* 縮小字體至80% */
   padding: 2px 6px !important; /* 緊密內邊距 */
   line-height: 1.1; /* 調整行高 */
@@ -539,7 +539,7 @@ li.disabled .prompt-manager-inspect-action {
   z-index: 10002 !important; /* 與主容器保持一致的高層級 */
   position: relative !important; /* 確保 z-index 生效 */
   /* 應用主題樣式 */
-  background: linear-gradient(135deg, var(--pixel-panel-bg), #fffafa) !important;
+  background: linear-gradient(135deg, var(--pixel-panel-bg), #3a4a4a) !important;
   border: none !important; /* 移除邊框 */
   box-shadow: none !important; /* 移除陰影 */
   border-radius: 0 !important; /* 移除圓角 */

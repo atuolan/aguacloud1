@@ -191,11 +191,11 @@ body {
 /* .mes: 每一條聊天消息的容器（包含頭像、名稱、內容） */
 .mes {
   background-color: var(--pixel-container-bg) !important; /* 幽静湖水背景 */
-  border: 2px solid var(--pixel-border) !important; /* 淺粉色邊框 */
+  border: 2px solid var(--pixel-border) !important; /* 雾中青石邊框 */
   border-radius: 4px !important; /* 輕微圓角柔化邊緣 */
-  box-shadow: 2px 2px 0px var(--pixel-shadow) !important; /* 薰衣草紫陰影 */
-  margin-bottom: 5px !important; /* 消息間距20像素 */
-  padding: 10px !important; /* 內邊距15像素 */
+  box-shadow: 2px 2px 0px var(--pixel-shadow) !important; /* 深邃树影陰影 */
+  margin-bottom: 5px !important; /* 消息間距5像素 */
+  padding: 10px !important; /* 內邊距10像素 */
   position: relative; /* 為偽元素提供定位基準 */
 }
 
@@ -221,7 +221,7 @@ div[is_user='true'].mes {
 
 /* .mes .ch_name: 消息中的角色名稱或用戶名顯示區域 */
 .mes .ch_name {
-  color: var(--pixel-text-light) !important; /* 牛奶巧克力色文字 */
+  color: var(--pixel-text-light) !important; /* 晨雾灰文字 */
   font-size: 16px !important; /* 較大的名稱字體 */
   margin-bottom: 10px; /* 與下方內容的間距 */
   text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5); /* 半透明白色文字陰影 */
@@ -245,8 +245,8 @@ div[is_user='true'] .ch_name {
 /* .mes .avatar img: 頭像圖片元素本體 */
 .mes .avatar img {
   border-radius: 4px !important; /* 輕微圓角柔化邊緣 */
-  border: 2px solid var(--pixel-border); /* 淺粉色邊框 */
-  box-shadow: 2px 2px 0px var(--pixel-shadow); /* 薰衣草紫陰影 */
+  border: 2px solid var(--pixel-border); /* 雾中青石邊框 */
+  box-shadow: 2px 2px 0px var(--pixel-shadow); /* 深邃树影陰影 */
   width: 100%; /* 占滿容器寬度 */
   height: 100%; /* 占滿容器高度 */
   object-fit: cover; /* 保持縱橫比裁剪圖片 */
@@ -270,8 +270,8 @@ div[is_user='true'] .avatar img {
 
 /* #send_form: 主要輸入表單容器（包含輸入框、按鈕等） */
 #send_form {
-  background-color: var(--pixel-panel-bg) !important; /* 柔和玫瑰粉背景 */
-  border-top: 2px solid var(--pixel-border) !important; /* 頂部淺粉色分界線 */
+  background-color: var(--pixel-panel-bg) !important; /* 苔藓石背景 */
+  border-top: 2px solid var(--pixel-border) !important; /* 頂部雾中青石分界線 */
   box-shadow: none; /* 移除陰影保持簡潔 */
   padding: 5px 10px; /* 調整內邊距為5px上下、10px左右 */
 }
@@ -580,58 +580,6 @@ li.disabled .prompt-manager-inspect-action {
   * 🎯 QR (Quick Reply) 快速回應系統樣式
   * ============================================ */
 
-/* .qr--set: QR 快速回應設置容器 */
-.qr--set {
-  background-color: var(--pixel-panel-bg) !important; /* 柔和玫瑰粉背景 */
-  border: 2px solid var(--pixel-border) !important; /* 淺粉色邊框 */
-  border-radius: 4px !important; /* 輕微圓角 */
-  box-shadow: 2px 2px 0px var(--pixel-shadow) !important; /* 薰衣草紫陰影 */
-  color: var(--pixel-text) !important; /* 深棕色文字 */
-  padding: 8px 12px !important; /* 適當內邊距 */
-  margin: 5px 0 !important; /* 上下外邊距 */
-}
-
-/* .qr--set:hover: QR 設置容器懸停效果 */
-.qr--set:hover {
-  background-color: var(--pixel-user-accent) !important; /* 懸停時變為天藍色 */
-  border-color: var(--pixel-user-shadow) !important; /* 邊框變為深天藍色 */
-  transform: translateY(-1px); /* 輕微上浮效果 */
-  box-shadow: 3px 3px 0px var(--pixel-shadow) !important; /* 增強陰影 */
-}
-
-/* .qr--set-itemMessage: QR 快速回應消息項目 */
-.qr--set-itemMessage {
-  background-color: var(--pixel-container-bg) !important; /* 純白牛奶色背景 */
-  border: 1px solid var(--pixel-border) !important; /* 較細的淺粉色邊框 */
-  border-radius: 3px !important; /* 小圓角 */
-  color: var(--pixel-text) !important; /* 深棕色文字 */
-  padding: 6px 10px !important; /* 緊密內邊距 */
-  margin: 3px 0 !important; /* 小間距 */
-  cursor: pointer; /* 鼠標指針 */
-  transition: all 0.1s ease-in-out; /* 平滑過渡 */
-  box-shadow: 1px 1px 0px var(--pixel-shadow); /* 小陰影 */
-}
-
-/* .qr--set-itemMessage:hover: QR 消息項目懸停效果 */
-.qr--set-itemMessage:hover {
-  background-color: var(--pixel-user-accent) !important; /* 懸停時變為天空藍 */
-  border-color: var(--pixel-user-shadow) !important; /* 邊框變為天藍色 */
-  color: var(--pixel-text) !important; /* 保持深棕色文字 */
-  transform: scale(1.02); /* 輕微放大 */
-  box-shadow: 2px 2px 0px var(--pixel-user-shadow); /* 天藍色陰影 */
-}
-
-/* .qr--set-itemMessage:active: QR 消息項目點擊效果 */
-.qr--set-itemMessage:active {
-  transform: scale(0.98) translateY(1px); /* 按下縮小和下移 */
-  box-shadow: 0px 0px 0px var(--pixel-user-shadow); /* 陰影消失 */
-}
-
-/* 最大化文本区域背景设置为白色 */
-.height100p.wide100p.maximized_textarea.mdHotkeys {
-  background-color: #ffffff !important;
-}
-
 /* --- 🔧 特殊组件样式 --- */
 /* 输入框上方快捷格式按钮的容器样式 */
 #nonQRFormItems {
@@ -821,17 +769,14 @@ textarea,
 /* #send_form .flex-container.flexGap5.popoutVisible: 
   * 輸入表單中的快捷格式化按鈕容器（當可見時） */
 #send_form .flex-container.flexGap5.popoutVisible {
-  background-color: var(--pixel-panel-bg) !important; /* 柔和玫瑰粉背景 */
-  border: none !important; /* 移除邊框以融入背景 */
-  box-shadow: none !important; /* 移除陰影保持簡潔 */
-  border-radius: 4px !important; /* 輕微圓角 */
+  background-color: var(--pixel-panel-bg) !important; /* 苔藓石背景 */
 }
 
 /* 快捷格式化容器內部按鈕的預設樣式 */
 #send_form .flex-container.flexGap5.popoutVisible .menu_button {
-  background: var(--pixel-user-accent) !important; /* 天藍色背景 */
-  color: var(--pixel-text) !important; /* 深棕色文字 */
-  border: 2px solid var(--pixel-user-accent) !important; /* 天藍色邊框 */
+  background: #2c552c !important; /* 深青苔綠 */
+  color: #ffffff !important; /* 月光白文字 */
+  border: 2px solid #2c552c !important; /* 深青苔綠邊框 */
 }
 
 /* 快捷格式化按鈕的懸停狀態 */
@@ -906,7 +851,7 @@ textarea,
   font-family: var(--pixel-font) !important; /* 像素風格字體 */
   background: transparent !important; /* 透明背景 */
   border: none !important; /* 無邊框 */
-  color: var(--pixel-text) !important; /* 深棕色文字 */
+  color: var(--pixel-text) !important; /* 月光白文字 */
   width: 100%; /* 占滿容器寬度 */
   text-align: left; /* 文字左對齊 */
   padding: 8px 12px; /* 上下8px、左右12px內邊距 */
@@ -974,11 +919,11 @@ textarea,
 /* .popup_text: 通用確認彈窗內的文本區域樣式 */
 .popup_text {
   font-family: var(--pixel-font) !important; /* 像素風格字體 */
-  color: var(--pixel-text) !important; /* 深棕色文字 */
+  color: var(--pixel-text) !important; /* 月光白文字 */
   font-size: 16px; /* 文字大小 */
   padding: 10px; /* 內邊距 */
-  background-color: var(--pixel-container-bg); /* 純白背景 */
-  border: 2px solid var(--pixel-border); /* 淺粉色邊框 */
+  background-color: var(--pixel-container-bg); /* 幽静湖水背景 */
+  border: 2px solid var(--pixel-border); /* 雾中青石邊框 */
   border-radius: 4px; /* 輕微圓角 */
   box-shadow: inset 1px 1px 0px var(--pixel-shadow); /* 內陰影創造凹陷效果 */
 }
@@ -991,13 +936,13 @@ textarea,
 .popup_body input[type='checkbox'] {
   -webkit-appearance: none; /* 移除WebKit預設外觀 */
   appearance: none; /* 移除標準預設外觀 */
-  background-color: var(--pixel-container-bg); /* 純白背景 */
+  background-color: var(--pixel-container-bg); /* 幽静湖水背景 */
   margin-right: 8px; /* 與右側文字的間距 */
   font: inherit; /* 繼承父元素字體 */
   color: currentColor; /* 繼承當前文字顏色 */
   width: 1.15em; /* 寬度為1.15倍字體大小 */
   height: 1.15em; /* 高度為1.15倍字體大小 */
-  border: 2px solid var(--pixel-border); /* 淺粉色邊框 */
+  border: 2px solid var(--pixel-border); /* 雾中青石邊框 */
   border-radius: 2px; /* 微圓角 */
   transform: translateY(-0.075em); /* 微向上調整對齊 */
   display: inline-grid; /* 內聯網格佈局 */
@@ -1027,8 +972,8 @@ textarea,
 
 /* #floatingPrompt: AI生成時顯示的浮動提示框 */
 #floatingPrompt {
-  background: var(--pixel-panel-bg) !important; /* 柔和玫瑰粉背景 */
-  color: var(--pixel-text) !important; /* 深棕色文字 */
+  background: var(--pixel-panel-bg) !important; /* 苔藓石背景 */
+  color: var(--pixel-text) !important; /* 月光白文字 */
   border: none !important; /* 移除邊框 */
   border-radius: 0 !important; /* 移除圓角 */
   box-shadow: none !important; /* 移除陰影 */
@@ -1089,7 +1034,7 @@ textarea,
 #extensions_settings .inline-drawer-toggle.inline-drawer-header,
 #extensions_settings2 .inline-drawer-toggle.inline-drawer-header,
 .standoutHeader {
-  color: var(--pixel-text-light) !important; /* 牛奶巧克力色文字 */
+  color: var(--pixel-text-light) !important; /* 晨雾灰文字 */
   font-size: 16px !important; /* 標題字體大小 */
   text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.7); /* 70%透明白色文字陰影 */
   border-bottom: 2px solid var(--pixel-border) !important; /* 實線下邊框分隔 */
@@ -1103,7 +1048,7 @@ textarea,
 /* 次要設定標題（如用戶設定內的標籤）：
   * #user-settings-block h4: 用戶設定區塊中的h4標題 */
 #user-settings-block h4 {
-  color: var(--pixel-text-light) !important; /* 牛奶巧克力色文字 */
+  color: var(--pixel-text-light) !important; /* 晨雾灰文字 */
   font-size: 14px !important; /* 較小的標題字體 */
   text-shadow: none; /* 不使用文字陰影 */
   border-bottom: 2px dotted var(--pixel-border) !important; /* 點狀下邊框區別於主標題 */

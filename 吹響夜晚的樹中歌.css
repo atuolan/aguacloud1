@@ -383,7 +383,7 @@ div[is_user='true'] .avatar img {
   /* 統一深天藍色背景表示激活狀態 */
   background: var(--pixel-user-shadow) !important;
   border-color: var(--pixel-user-shadow) !important; /* 橄榄色邊框 */
-  box-shadow: 2px 2px 0px 0px #101a1a !important; /* 橄榄色陰影 */
+  box-shadow: 2px 2px 0px 0px #0f2612 !important; /* 橄榄色陰影 */
   color: #ffffff !important; /* 白色文字提高對比度 */
   text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.3) !important; /* 深色文字陰影增強可讀性 */
   font-weight: 600 !important; /* 加粗字體 */

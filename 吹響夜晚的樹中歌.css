@@ -1,0 +1,1928 @@
+/*
+  * 💖 吸一口甜的 💖
+  * 作者: 阿瓜雲在上
+  */
+
+/* ============================================
+  * 🎨 全局變量定義 (CSS自定義屬性)
+  * ============================================ */
+:root {
+  /* --- 🎨 静谧森林之夜配色 --- */
+  --pixel-bg: #1a2a2a; /* 页面主要背景色：深林夜色 */
+  --pixel-panel-bg: #2a3a3a; /* 左右侧边栏和顶栏面板背景色：苔藓石 */
+  --pixel-container-bg: #3a4a4a; /* 消息气泡等容器背景色：幽静湖水 */
+  --pixel-border: #668080; /* 主要边框颜色：雾中青石 */
+  --pixel-text: #d0e0e0; /* 主要文字颜色：月光白 */
+  --pixel-text-light: #a0b0b0; /* 较浅的文字颜色，用于次要信息：晨雾灰 */
+  --pixel-accent: #e0c080; /* 强调色，用于高亮和交互元素：琥珀光 */
+  --pixel-accent-hover: #f0d090; /* 鼠标悬停时的强调色：亮琥珀 */
+  --pixel-accent-shadow: #a08040; /* 强调色的阴影：暗琥珀 */
+  --pixel-shadow: #101a1a; /* 通用阴影颜色：深邃树影 */
+  --pixel-user-accent: #80a080; /* 用户消息的特殊强调色：橄榄绿 */
+  --pixel-user-shadow: #406040; /* 用户消息的特殊阴影色：深橄榄 */
+  --pixel-accent-alt: #202933; /* 特殊输入框强调色 */
+  --pixel-input-bg: #143d4b5d; /* 统一输入框和选择框背景色 */
+}
+
+/* ============================================
+  * 📝 全局基礎樣式設定
+  * ============================================ */
+
+/* body: 頁面根元素
+  * #chat: SillyTavern主聊天區域容器
+  * .mes_text: 每條消息的文字內容區域 */
+body,
+#chat,
+.mes_text {
+  font-size: 14px; /* 設定基礎字體大小為14像素 */
+  color: var(--pixel-text); /* 應用深棕色作為主要文字顏色 */
+  /* 禁用圖片平滑渲染，保持像素風格的清晰邊緣 */
+  image-rendering: pixelated; /* 現代瀏覽器標準 */
+  image-rendering: -moz-crisp-edges; /* Firefox兼容 */
+  image-rendering: crisp-edges; /* 備用標準 */
+}
+
+/* body: 設定整個頁面的背景顏色 */
+body {
+  background-color: var(--pixel-bg) !important; /* 奶油草莓粉背景 */
+}
+
+/* ============================================
+  * ✨ 滾動條美化 (WebKit瀏覽器專用)
+  * ============================================ */
+
+/* ::-webkit-scrollbar: 滾動條整體容器 */
+::-webkit-scrollbar {
+  width: 6px; /* 設定滾動條寬度為8像素 */
+}
+
+/* ::-webkit-scrollbar-track: 滾動條軌道背景 */
+::-webkit-scrollbar-track {
+  background: transparent; /* 軌道完全透明，融入背景 */
+}
+
+/* ::-webkit-scrollbar-thumb: 滾動條滑塊（可拖拽部分） */
+::-webkit-scrollbar-thumb {
+  /* 使用天藍色的半透明效果 */
+  background-color: color-mix(in srgb, var(--pixel-user-accent) 60%, transparent);
+  border: none; /* 移除邊框保持簡潔 */
+}
+
+/* ::-webkit-scrollbar-thumb:hover: 滑塊懸停狀態 */
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--pixel-user-shadow); /* 懸停時變為深天藍色 */
+}
+
+/* ============================================
+  * 💻 主要布局面板樣式
+  * ============================================ */
+
+/* SillyTavern主要面板統一樣式：
+  * #left-nav-panel: 左側導航面板（角色、世界書等）
+  * #right-nav-panel: 右側導航面板（設定、擴展等）
+  * #WorldInfo: 世界書設定面板
+  * #AdvancedFormatting: 高級格式化面板
+  * #rm_api_block: API設定區塊
+  * #user-settings-block: 用戶設定區塊
+  * #Backgrounds: 背景設定面板
+  * #rm_extensions_block: 擴展設定區塊 */
+#left-nav-panel,
+#right-nav-panel,
+#WorldInfo,
+#AdvancedFormatting,
+#rm_api_block,
+#user-settings-block,
+#Backgrounds,
+#rm_extensions_block {
+  /* 柔和的對角線漸變背景：從玫瑰粉到花白色 */
+  background: linear-gradient(135deg, var(--pixel-panel-bg), #2a3a3a) !important;
+  border: none !important; /* 移除邊框 */
+  /* 移除像素風格多層陰影 */
+  box-shadow: none !important;
+  border-radius: 0 !important; /* 移除圓角 */
+  transition: none !important; /* 禁用默認動畫防止視覺錯位 */
+  z-index: 9999 !important; /* 確保面板在最上層 */
+}
+
+/* PC端左右面板高度的精确控制 */
+
+/* --- 🔝 顶栏样式 --- */
+/* 顶栏图标的基础样式 */
+#top-bar .drawer-icon {
+  color: var(--pixel-text-light); /* 应用较浅的文字颜色 */
+  font-family: 'monospace'; /* 使用等宽字体以保证自定义符号显示一致 */
+  font-size: 18px; /* 调整符号大小 */
+  line-height: 1; /* 确保符号垂直居中 */
+}
+
+/* 鼠标悬停在顶栏图标上时的样式 */
+#top-bar .drawer-icon:hover {
+  color: var(--pixel-accent); /* 悬停时变为高亮色 */
+  transform: scale(1.1) rotate(-5deg); /* 添加轻微的放大和旋转效果，增加趣味性 */
+}
+
+/* ============================================
+  * 🎨 自定義頂欄圖標系統
+  * ============================================ */
+
+/* 為各個頁面功能按鈕自定義圖標符號：
+  * 使用::before偽元素插入Unicode符號取代FontAwesome圖標 */
+#ai-config-button .drawer-icon::before {
+  content: '❏';
+} /* AI配置按鈕 */
+#sys-settings-button .drawer-icon::before {
+  content: '❐';
+} /* 系統設定按鈕 */
+#advanced-formatting-button .drawer-icon::before {
+  content: '❑';
+} /* 高級格式化按鈕 */
+#WI-SP-button .drawer-icon::before {
+  content: '❒';
+} /* 世界書按鈕 */
+#user-settings-button .drawer-icon::before {
+  content: '❖';
+} /* 用戶設定按鈕 */
+#logo_block .drawer-icon::before {
+  content: '❒';
+} /* Logo區塊 */
+#extensions-settings-button .drawer-icon::before {
+  content: '❑';
+} /* 擴展設定按鈕 */
+#persona-management-button .drawer-icon::before {
+  content: '❐';
+} /* 人格管理按鈕 */
+#rightNavHolder .drawer-icon::before {
+  content: '❏';
+} /* 右側導航容器 */
+
+/* 圖標替換機制：隱藏原始圖標並定位新圖標 */
+#top-bar .drawer-icon {
+  text-indent: -9999px; /* 將原有FontAwesome圖標移至不可見區域 */
+  position: relative; /* 為偽元素定位提供基準 */
+  font-size: 20px; /* 調整為適合Unicode符號的大小 */
+  font-family: 'monospace'; /* 等寬字體保證符號對齊 */
+}
+
+/* #top-bar .drawer-icon::before: 自定義圖標的位置調整 */
+#top-bar .drawer-icon::before {
+  text-indent: 0; /* 重置偽元素縮排 */
+  position: absolute; /* 絕對定位以便居中 */
+  left: 50%; /* 水平中心點 */
+  top: 50%; /* 垂直中心點 */
+  transform: translate(-50%, -50%); /* 精確中心對齊 */
+  width: 100%; /* 占滿容器寬度 */
+  text-align: center; /* 文字水平置中 */
+}
+
+/* ============================================
+  * 💬 SillyTavern聊天區域樣式
+  * ============================================ */
+
+/* #chat: 主要聊天消息顯示區域 */
+#chat {
+  background-color: transparent !important; /* 透明背景以顯示body的草莓粉背景 */
+  padding: 10px; /* 設定內邊距10像素 */
+}
+
+/* ============================================
+  * 🗨️ 消息氣泡樣式
+  * ============================================ */
+
+/* .mes: 每一條聊天消息的容器（包含頭像、名稱、內容） */
+.mes {
+  background-color: var(--pixel-container-bg) !important; /* 純白牛奶色背景 */
+  border: 2px solid var(--pixel-border) !important; /* 淺粉色邊框 */
+  border-radius: 4px !important; /* 輕微圓角柔化邊緣 */
+  box-shadow: 2px 2px 0px var(--pixel-shadow) !important; /* 薰衣草紫陰影 */
+  margin-bottom: 5px !important; /* 消息間距20像素 */
+  padding: 10px !important; /* 內邊距15像素 */
+  position: relative; /* 為偽元素提供定位基準 */
+}
+
+/* .mes:hover::after: 消息懸停時的裝飾效果（未定義具體內容） */
+.mes:hover::after {
+  opacity: 1; /* 完全不透明 */
+  transform: scale(1.2) rotate(10deg); /* 放大120%並順時針旋轉10度 */
+}
+
+/* ============================================
+  * 👤/🤖 用戶與AI消息區分
+  * ============================================ */
+
+/* div[is_user="true"].mes: 用戶發送的消息氣泡（區別於角色回應） */
+div[is_user='true'].mes {
+  border-color: var(--pixel-user-accent) !important; /* 用戶消息使用天空藍邊框 */
+  box-shadow: 2px 2px 0px var(--pixel-user-shadow) !important; /* 天藍色陰影 */
+}
+
+/* ============================================
+  * 🏷️ 角色名稱與用戶名樣式
+  * ============================================ */
+
+/* .mes .ch_name: 消息中的角色名稱或用戶名顯示區域 */
+.mes .ch_name {
+  color: var(--pixel-text-light) !important; /* 牛奶巧克力色文字 */
+  font-size: 16px !important; /* 較大的名稱字體 */
+  margin-bottom: 10px; /* 與下方內容的間距 */
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5); /* 半透明白色文字陰影 */
+}
+
+/* div[is_user="true"] .ch_name: 用戶消息中的用戶名顯示 */
+div[is_user='true'] .ch_name {
+  color: var(--pixel-text-light) !important; /* 與角色名使用相同顏色 */
+}
+
+/* ============================================
+  * 🖼️ 頭像圖片樣式
+  * ============================================ */
+
+/* .mes .avatar: 消息中的頭像容器 */
+.mes .avatar {
+  width: var(--avatar-size, 80px); /* 頭像寬度（預設80px） */
+  height: var(--avatar-size, 80px); /* 頭像高度（預設80px） */
+}
+
+/* .mes .avatar img: 頭像圖片元素本體 */
+.mes .avatar img {
+  border-radius: 4px !important; /* 輕微圓角柔化邊緣 */
+  border: 2px solid var(--pixel-border); /* 淺粉色邊框 */
+  box-shadow: 2px 2px 0px var(--pixel-shadow); /* 薰衣草紫陰影 */
+  width: 100%; /* 占滿容器寬度 */
+  height: 100%; /* 占滿容器高度 */
+  object-fit: cover; /* 保持縱橫比裁剪圖片 */
+}
+
+/* div[is_user="true"] .avatar img: 用戶頭像的特殊樣式 */
+div[is_user='true'] .avatar img {
+  border-color: var(--pixel-user-accent) !important; /* 用戶頭像使用天空藍邊框 */
+  box-shadow: 2px 2px 0px var(--pixel-user-shadow) !important; /* 天藍色陰影 */
+}
+
+/* ============================================
+  * ⌨️ 輸入區域樣式
+  * ============================================ */
+
+/* #form_sheld: 輸入區域的外層容器（減少垂直內邊距） */
+#form_sheld {
+  padding-top: 0px !important; /* 移除頂部內邊距 */
+  padding-bottom: 0px !important; /* 移除底部內邊距 */
+}
+
+/* #send_form: 主要輸入表單容器（包含輸入框、按鈕等） */
+#send_form {
+  background-color: var(--pixel-panel-bg) !important; /* 柔和玫瑰粉背景 */
+  border-top: 2px solid var(--pixel-border) !important; /* 頂部淺粉色分界線 */
+  box-shadow: none; /* 移除陰影保持簡潔 */
+  padding: 5px 10px; /* 調整內邊距為5px上下、10px左右 */
+}
+
+/* 文字輸入框統一樣式：
+  * #send_textarea: 主要聊天輸入框
+  * .text_pole: 通用文字輸入框類
+  * #curEditTextarea: 當前編輯中的文本區域 */
+#send_textarea,
+.text_pole,
+#curEditTextarea {
+  font-family: var(--pixel-font) !important; /* 使用像素風格字體 */
+  background-color: var(--pixel-input-bg) !important; /* 统一输入框背景色 */
+  color: var(--pixel-text) !important; /* 月光白文字 */
+  border: 2px solid var(--pixel-border) !important; /* 雾中青石邊框 */
+  border-radius: 4px !important; /* 輕微圓角 */
+  box-shadow: inset 2px 2px 0px var(--pixel-shadow); /* 內陰影創造凹陷效果 */
+}
+
+/* 輸入框獲得焦點時的狀態樣式 */
+#send_textarea:focus,
+.text_pole:focus {
+  border-color: var(--pixel-accent) !important; /* 焦點時邊框變為黃金色 */
+  box-shadow: inset 2px 2px 0px var(--pixel-accent-shadow); /* 內陰影變為深金色 */
+}
+
+/* ============================================
+  * 🔘 按鈕與控制元件樣式
+  * ============================================ */
+
+/* 所有主要按鈕的統一樣式：
+  * .menu_button: 一般菜單按鈕類
+  * .stscript_btn: STscript指令按鈕類  
+  * #mes_stop: 停止生成按鈕
+  * #send_but: 發送消息按鈕 */
+.menu_button,
+.stscript_btn,
+#mes_stop,
+#send_but {
+  background: linear-gradient(135deg, var(--pixel-accent), var(--pixel-accent-hover)) !important; /* 應用橙色漸變背景 */
+  color: #101a1a !important; /* 應用深邃樹影色文字 */
+  border: 2px solid var(--pixel-accent-shadow) !important; /* 設置橙色陰影色作為邊框 */
+  border-radius: 4px !important; /* 輕微圓角 */
+  box-shadow: 2px 2px 0px 0px var(--pixel-accent-shadow) !important; /* 像素風格陰影 */
+  transition: all 0.1s ease-in-out; /* 0.1秒平滑過渡動畫 */
+  position: relative; /* 為按下效果提供定位基準 */
+  top: 0; /* 初始垂直位置 */
+  left: 0; /* 初始水平位置 */
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.3); /* 添加浅色文字阴影 */
+  font-size: 0.8rem !important; /* 縮小字體至80% */
+  padding: 2px 6px !important; /* 緊密內邊距 */
+  line-height: 1.1; /* 調整行高 */
+  min-height: 24px !important; /* 最小高度24像素 */
+  transform: scale(0.85) !important; /* 整體縮小到85% */
+}
+
+/* 按鈕互動狀態樣式 */
+
+/* 按鈕懸停時的視覺回饋 */
+.menu_button:hover,
+.stscript_btn:hover,
+#mes_stop:hover,
+#send_but:hover {
+  background: linear-gradient(135deg, var(--pixel-accent-hover), var(--pixel-accent)) !important; /* 反转渐变方向 */
+  transform: translate(1px, 1px); /* 輕微位移模擬預按狀態 */
+  box-shadow: 1px 1px 0px 0px var(--pixel-accent-shadow) !important; /* 陰影縮小 */
+}
+
+/* 按鈕被點擊時的視覺回饋 */
+.menu_button:active,
+.stscript_btn:active,
+#mes_stop:active,
+#send_but:active {
+  transform: translate(2px, 2px); /* 更大位移模擬完全按下 */
+  box-shadow: 0px 0px 0px 0px var(--pixel-accent-shadow) !important; /* 陰影完全消失 */
+}
+
+/* ============================================
+  * 🎯 按鈕特殊狀態樣式（激活/選中/禁用）
+  * ============================================ */
+
+/* 🌟 已激活/綁定/選中狀態的按鈕 - 統一天藍色 */
+
+/* 各種激活狀態的CSS類名組合：
+  * .active, .selected, .enabled, .bound: 常見激活狀態類
+  * [data-active="true"]: 數據屬性激活標記
+  * .drawer:focus-within .menu_button: 抽屜獲得焦點時內部按鈕
+  * .drawer:not(.closedDrawer) .menu_button: 打開狀態抽屜中的按鈕
+  * .is_fav .menu_button: 收藏狀態相關按鈕
+  * .selected .menu_button: 選中狀態相關按鈕
+  * #extensions_settings .menu_button.active: 擴展設定中的激活按鈕
+  * #user-settings-block .menu_button.active: 用戶設定中的激活按鈕 */
+.menu_button.active,
+.menu_button.selected,
+.menu_button.enabled,
+.menu_button.bound,
+.stscript_btn.active,
+.stscript_btn.selected,
+.stscript_btn.enabled,
+.stscript_btn.bound,
+.menu_button[data-active='true'],
+.stscript_btn[data-active='true'],
+.drawer:focus-within .menu_button,
+.drawer:not(.closedDrawer) .menu_button,
+.is_fav .menu_button,
+.selected .menu_button,
+#extensions_settings .menu_button.active,
+#user-settings-block .menu_button.active {
+  /* 統一深天藍色背景表示激活狀態 */
+  background: var(--pixel-user-shadow) !important;
+  border-color: var(--pixel-user-shadow) !important; /* 橄榄色邊框 */
+  box-shadow: 2px 2px 0px 0px var(--pixel-user-shadow) !important; /* 橄榄色陰影 */
+  color: #ffffff !important; /* 白色文字提高對比度 */
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.3) !important; /* 深色文字陰影增強可讀性 */
+  font-weight: 600 !important; /* 加粗字體 */
+  transform: scale(0.85) !important; /* 保持原有縮放比例 */
+}
+
+/* 🌍 世界書按鈕激活狀態 - 線色強調特定類名 */
+
+/* 世界書相關按鈕的組合選擇器：
+  * .world_button.menu_button.world_set: 世界書按鈕的完整類名
+  * .menu_button.world_set: 一般菜單按鈕的世界書設定狀態
+  * #world_button.world_set: 特定世界書按鈕ID的設定狀態 */
+.world_button.menu_button.world_set,
+.menu_button.world_set,
+#world_button.world_set {
+  color: #17bb0c !important; /* 鮮明綠色標示世界書已啟用 */
+  text-shadow: 0 0 4px var(--pixel-user-accent) !important; /* 橄榄绿發光效果 */
+}
+
+/* ⭐ 收藏按鈕激活狀態 - 金色強調特定類名 */
+
+/* 收藏功能相關按鈕的組合選擇器：
+  * .favorite_button.menu_button.fav_on: 收藏按鈕的完整類名
+  * .menu_button.fav_on: 一般菜單按鈕的收藏狀態
+  * #favorite_button.fav_on: 特定收藏按鈕ID的激活狀態 */
+.favorite_button.menu_button.fav_on,
+.menu_button.fav_on,
+#favorite_button.fav_on {
+  color: #ffd700 !important; /* 金色突出收藏狀態 */
+  text-shadow: 0 0 4px var(--pixel-user-accent) !important; /* 橄榄绿發光效果 */
+}
+
+/* 🚫 禁用狀態的按鈕 - 半透明橄榄绿視覺回饋 */
+
+/* 禁用狀態的各種情況：
+  * .disabled, :disabled: 正式禁用狀態類名和偽類
+  * [data-active="false"]: 數據屬性標記為非激活
+  * .closedDrawer .menu_button: 關閉抽屜中的按鈕 */
+.menu_button.disabled,
+.menu_button:disabled,
+.stscript_btn.disabled,
+.stscript_btn:disabled,
+.menu_button[data-active='false'],
+.stscript_btn[data-active='false'],
+.closedDrawer .menu_button {
+  /* 統一使用半透明橄榄绿背景 */
+  background: color-mix(in srgb, var(--pixel-user-accent) 40%, transparent) !important;
+  color: color-mix(in srgb, var(--pixel-text) 50%, transparent) !important; /* 50%透明文字 */
+  border-color: color-mix(in srgb, var(--pixel-user-accent) 50%, transparent) !important; /* 50%透明邊框 */
+  box-shadow: 2px 2px 0px 0px color-mix(in srgb, var(--pixel-user-shadow) 30%, transparent) !important; /* 30%透明陰影 */
+  opacity: 0.7 !important; /* 整體透明度 */
+  cursor: not-allowed !important; /* 禁止鼠標游標 */
+  transform: scale(0.85) !important; /* 保持原有縮放 */
+}
+
+/* 💡 禁用按鈕的懸停效果（保持禁用外觀不做互動回饋） */
+
+/* 禁用狀態按鈕的懸停狀態：不應有既常的互動效果 */
+.menu_button.disabled:hover,
+.menu_button:disabled:hover,
+.stscript_btn.disabled:hover,
+.stscript_btn:disabled:hover,
+.menu_button[data-active='false']:hover,
+.stscript_btn[data-active='false']:hover,
+.closedDrawer .menu_button:hover {
+  /* 保持統一的半透明橄榄绿背景 */
+  background: color-mix(in srgb, var(--pixel-user-accent) 40%, transparent) !important;
+  transform: scale(0.85) !important; /* 不應用位移效果 */
+  box-shadow: 2px 2px 0px 0px color-mix(in srgb, var(--pixel-user-shadow) 30%, transparent) !important;
+  opacity: 0.8 !important; /* 稍微提高透明度作回饋 */
+}
+
+/* Prompt Manager 检查按钮和条目的字体颜色 */
+/* 参考雙色盒子.css的实现方式，精确匹配SillyTavern的类名结构 */
+
+/* 已开启的条目 - 使用橄榄绿强调 */
+#completion_prompt_manager
+  #completion_prompt_manager_list
+  .completion_prompt_manager_prompt:not(.completion_prompt_manager_prompt_disabled)
+  .prompt-manager-toggle-action,
+#completion_prompt_manager
+  #completion_prompt_manager_list
+  .completion_prompt_manager_prompt:not(.completion_prompt_manager_prompt_disabled)
+  .prompt-manager-inspect-action {
+  color: var(--pixel-user-accent) !important; /* 橄榄绿*/
+  font-weight: 600;
+}
+
+/* 未开启/禁用的条目 - 使用灰色 */
+#completion_prompt_manager
+  #completion_prompt_manager_list
+  .completion_prompt_manager_prompt_disabled
+  .completion_prompt_manager_prompt_name
+  .prompt-manager-inspect-action,
+#completion_prompt_manager
+  #completion_prompt_manager_list
+  .completion_prompt_manager_prompt_disabled
+  .prompt-manager-toggle-action,
+#completion_prompt_manager #completion_prompt_manager_list .completion_prompt_manager_prompt_disabled .fa-solid {
+  color: color-mix(in srgb, var(--pixel-text-light) 50%, transparent) !important; /* 半透明的晨雾灰 */
+  opacity: 0.7;
+}
+
+/* 悬停效果 - 已开启条目 */
+#completion_prompt_manager
+  #completion_prompt_manager_list
+  .completion_prompt_manager_prompt:not(.completion_prompt_manager_prompt_disabled)
+  .prompt-manager-inspect-action:hover {
+  color: var(--pixel-user-shadow) !important;
+  transform: scale(1.05);
+  text-shadow: 0 0 4px var(--pixel-accent-shadow);
+}
+
+/* 悬停效果 - 未开启条目 */
+#completion_prompt_manager
+  #completion_prompt_manager_list
+  .completion_prompt_manager_prompt_disabled
+  .prompt-manager-inspect-action:hover {
+  color: var(--pixel-text) !important; /* 变为正常文字色 */
+  opacity: 0.9;
+  cursor: pointer;
+}
+
+/* 备用选择器 - 处理其他可能的类名组合 */
+.completion_prompt_manager_prompt.enabled .prompt-manager-inspect-action,
+li.enabled .prompt-manager-inspect-action {
+  color: var(--pixel-user-accent) !important; /* 橄榄绿 */
+  font-weight: 600;
+}
+
+.completion_prompt_manager_prompt.disabled .prompt-manager-inspect-action,
+li.disabled .prompt-manager-inspect-action {
+  color: color-mix(in srgb, var(--pixel-text-light) 50%, transparent) !important;
+  opacity: 0.7;
+}
+
+/* ============================================
+  * 🎯 Completion Prompt Manager 彈窗層級控制與位置設定
+  * ============================================ */
+
+/* completion_prompt_manager_popup 主容器：位於 top-bar 和 send_form 之間
+  * 設置合適的 z-index，確保彈窗在正確的層級顯示 */
+#completion_prompt_manager_popup {
+  z-index: 10002 !important; /* 高於 top-bar (10001)，保持在最上層 */
+  position: relative !important; /* 確保定位上下文 */
+  /* 移除導致向下位移的樣式 */
+  top: auto !important; /* 重置 top 值，避免額外位移 */
+  margin-top: 0 !important; /* 重置 margin-top，使用自然位置 */
+}
+
+/* completion_prompt_manager_popup.drawer-content: Prompt Manager 彈窗的抽屜內容 */
+#completion_prompt_manager_popup.drawer-content {
+  z-index: 10002 !important; /* 與主容器保持一致的高層級 */
+  position: relative !important; /* 確保 z-index 生效 */
+  /* 應用主題樣式 */
+  background: linear-gradient(135deg, var(--pixel-panel-bg), #fffafa) !important;
+  border: none !important; /* 移除邊框 */
+  box-shadow: none !important; /* 移除陰影 */
+  border-radius: 0 !important; /* 移除圓角 */
+  color: var(--pixel-text) !important;
+  overflow-x: hidden !important; /* 隱藏橫向滾動條 */
+}
+
+/* 確保 Prompt Manager 彈窗的所有相關元素都有正確的層級和樣式 */
+#completion_prompt_manager_popup .drawer,
+#completion_prompt_manager_popup .drawer-toggle,
+#completion_prompt_manager_popup .drawer-header,
+#completion_prompt_manager_popup .drawer-icon {
+  z-index: 10002 !important; /* 統一高層級設置 */
+  position: relative !important; /* 確保層級生效 */
+  color: var(--pixel-text-light) !important; /* 應用主題文字顏色 */
+}
+
+/* Prompt Manager 彈窗標題樣式 */
+#completion_prompt_manager_popup .drawer-header {
+  background-color: var(--pixel-accent-alt) !important; /* 豆沙色背景 */
+  border-bottom: 2px solid var(--pixel-border) !important;
+  padding: 8px 12px !important;
+  font-weight: 600 !important;
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5);
+}
+
+/* Prompt Manager 彈窗內容區域樣式 */
+#completion_prompt_manager_popup .drawer-content {
+  background-color: var(--pixel-container-bg) !important; /* 純白背景 */
+  border: none !important; /* 移除內部邊框，使用外層邊框 */
+  padding: 10px !important;
+  max-height: 100% !important;
+  overflow-y: auto !important; /* 內容過多時允許滾動 */
+  overflow-x: hidden !important; /* 隱藏橫向滾動條 */
+}
+
+/* ============================================
+  * 🎯 QR (Quick Reply) 快速回應系統樣式
+  * ============================================ */
+
+/* .qr--set: QR 快速回應設置容器 */
+.qr--set {
+  background-color: var(--pixel-panel-bg) !important; /* 柔和玫瑰粉背景 */
+  border: 2px solid var(--pixel-border) !important; /* 淺粉色邊框 */
+  border-radius: 4px !important; /* 輕微圓角 */
+  box-shadow: 2px 2px 0px var(--pixel-shadow) !important; /* 薰衣草紫陰影 */
+  color: var(--pixel-text) !important; /* 深棕色文字 */
+  padding: 8px 12px !important; /* 適當內邊距 */
+  margin: 5px 0 !important; /* 上下外邊距 */
+}
+
+/* .qr--set:hover: QR 設置容器懸停效果 */
+.qr--set:hover {
+  background-color: var(--pixel-user-accent) !important; /* 懸停時變為天藍色 */
+  border-color: var(--pixel-user-shadow) !important; /* 邊框變為深天藍色 */
+  transform: translateY(-1px); /* 輕微上浮效果 */
+  box-shadow: 3px 3px 0px var(--pixel-shadow) !important; /* 增強陰影 */
+}
+
+/* .qr--set-itemMessage: QR 快速回應消息項目 */
+.qr--set-itemMessage {
+  background-color: var(--pixel-container-bg) !important; /* 純白牛奶色背景 */
+  border: 1px solid var(--pixel-border) !important; /* 較細的淺粉色邊框 */
+  border-radius: 3px !important; /* 小圓角 */
+  color: var(--pixel-text) !important; /* 深棕色文字 */
+  padding: 6px 10px !important; /* 緊密內邊距 */
+  margin: 3px 0 !important; /* 小間距 */
+  cursor: pointer; /* 鼠標指針 */
+  transition: all 0.1s ease-in-out; /* 平滑過渡 */
+  box-shadow: 1px 1px 0px var(--pixel-shadow); /* 小陰影 */
+}
+
+/* .qr--set-itemMessage:hover: QR 消息項目懸停效果 */
+.qr--set-itemMessage:hover {
+  background-color: var(--pixel-user-accent) !important; /* 懸停時變為天空藍 */
+  border-color: var(--pixel-user-shadow) !important; /* 邊框變為天藍色 */
+  color: var(--pixel-text) !important; /* 保持深棕色文字 */
+  transform: scale(1.02); /* 輕微放大 */
+  box-shadow: 2px 2px 0px var(--pixel-user-shadow); /* 天藍色陰影 */
+}
+
+/* .qr--set-itemMessage:active: QR 消息項目點擊效果 */
+.qr--set-itemMessage:active {
+  transform: scale(0.98) translateY(1px); /* 按下縮小和下移 */
+  box-shadow: 0px 0px 0px var(--pixel-user-shadow); /* 陰影消失 */
+}
+
+/* 最大化文本区域背景设置为白色 */
+.height100p.wide100p.maximized_textarea.mdHotkeys {
+  background-color: #ffffff !important;
+}
+
+/* --- 🔧 特殊组件样式 --- */
+/* 输入框上方快捷格式按钮的容器样式 */
+#nonQRFormItems {
+  background-color: var(--pixel-panel-bg) !important; /* 应用面板背景色 */
+  padding: 2px; /* 减小内边距使其更紧凑 */
+}
+
+/* 顶栏容器的样式 */
+#top-settings-holder {
+  background-color: var(--pixel-panel-bg) !important; /* 应用面板背景色 */
+  border-bottom: 2px solid var(--pixel-border) !important; /* 添加底部边框以作区分 */
+  min-height: 38px; /* 调整顶栏最小高度 */
+  height: var(--topBarBlockSize, 38px) !important; /* 确保高度一致 */
+  left: 0 !important; /* 向左移动 */
+  box-shadow: none !important;
+}
+
+#top-bar {
+  background-color: transparent !important;
+  border-bottom: none !important;
+  box-shadow: none !important;
+}
+
+/* 扩展菜单的样式 */
+#extensionsMenu {
+  background-color: var(--pixel-panel-bg) !important; /* 应用面板背景色 */
+  border: none !important; /* 移除边框 */
+  box-shadow: none !important; /* 移除阴影 */
+  border-radius: 0 !important; /* 移除圆角 */
+}
+
+/* 扩展菜单列表项悬停时的样式 */
+#extensionsMenu .list-item:hover {
+  background-color: var(--pixel-user-accent) !important; /* 应用天藍色悬停色 */
+  color: var(--pixel-text) !important; /* 保持文字颜色 */
+}
+
+/* 输入框左侧选项按钮的样式 */
+#options_button {
+  color: var(--pixel-text-light) !important; /* 应用较浅的文字颜色 */
+  transition: all 0.1s ease-in-out; /* 添加平滑过渡 */
+}
+
+/* 点击选项按钮后弹出的菜单容器样式 */
+.options-content {
+  background-color: var(--pixel-panel-bg) !important; /* 应用面板背景色 */
+  border: none !important; /* 移除边框 */
+  box-shadow: none !important; /* 移除阴影 */
+  border-radius: 0 !important; /* 移除圆角 */
+}
+
+/* 选项菜单内的按钮样式 */
+.options-content .menu_button {
+  background: var(--pixel-user-accent) !important; /* 天藍色背景 */
+  color: var(--pixel-text) !important; /* 应用主要文字颜色 */
+  border: 2px solid var(--pixel-user-accent) !important; /* 天藍色邊框 */
+}
+
+/* 选项菜单内的按钮悬停样式 */
+.options-content .menu_button:hover {
+  background: var(--pixel-user-shadow) !important; /* 懸停時深天藍色 */
+  border-color: var(--pixel-user-shadow) !important; /* 邊框變為深天藍色 */
+}
+
+/* 修正选项菜单中被重置了字体和背景的元素 */
+.options-content .font-family-reset {
+  font-family: transparent !important; /* 强制应用像素字体 */
+  background-color: transparent !important; /* 强制背景透明，以显示下层颜色 */
+  color: transparent !important; /* 强制应用主要文字颜色 */
+}
+
+/* ============================================
+  * 📱 移動端響應式適配（小於1000px寬度）
+  * ============================================ */
+
+/* 媒體查詢：當螢幕寬度小於等於1000像素時應用以下樣式 */
+@media screen and (max-width: 1000px) {
+  /* 移動端面板全螢幕適配：讓所有抽屜面板占滿螢幕寬度 */
+  #left-nav-panel,
+  #right-nav-panel,
+  #WorldInfo,
+  #AdvancedFormatting,
+  #rm_api_block,
+  #user-settings-block,
+  #Backgrounds,
+  #rm_extensions_block {
+    width: 100% !important; /* 寬度占滿螢幕 */
+    /* 使用dvh單位（動態視窗高度）並減去頂欄高度 */
+    box-shadow: none !important; /* 移除陰影簡化界面 */
+  }
+
+  /* 移動端消息氣泡佈局調整：縮小間距並改為垂直中心對齊 */
+  .mes {
+    margin-bottom: 15px !important; /* 減少消息間距至15px */
+    padding: 10px !important; /* 減少內邊距至10px */
+    display: flex; /* 使用Flexbox佈局 */
+    flex-direction: column; /* 垂直排列 */
+    align-items: center; /* 水平置中對齊 */
+  }
+
+  /* 移動端字體大小調整 */
+  body,
+  #chat,
+  .mes_text {
+    font-size: 14px; /* 保持基礎字體大小 */
+    padding: 5px; /* 減少內邊距 */
+  }
+
+  /* 移動端角色名稱佈局調整 */
+  .mes .ch_name {
+    font-size: 16px !important; /* 保持較大字體 */
+    text-align: center; /* 置中顯示 */
+    order: 2; /* Flexbox順序：放在頭像之後 */
+  }
+
+  /* 移動端頭像佈局調整 */
+  .mes .avatar {
+    order: 1; /* Flexbox順序：放在最上方 */
+    margin-bottom: 10px; /* 與下方元素的間距 */
+    width: 80px; /* 固定寬度 */
+    height: 90px; /* 固定高度 */
+  }
+
+  /* 移動端消息內容區域佈局 */
+  .mes .mes_block {
+    order: 3; /* Flexbox順序：放在最下方 */
+  }
+}
+
+/* 移动端输入框适配 */
+.text_pole,
+textarea,
+.ui-autocomplete-input,
+.flex-container .text_pole,
+.flex-container .textarea_compact {
+  width: 100% !important;
+  box-sizing: border-box; /* 确保 padding 和 border 不会增加额外宽度 */
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  margin: 2px 0 !important; /* 调整垂直边距 */
+  padding: 5px !important; /* 调整内边距 */
+}
+
+/* 包含输入框的flex容器适配 */
+.flex-container > .text_pole,
+.flex-container > textarea {
+  flex: 1 !important; /* 允许元素在flex容器中伸缩 */
+  min-width: 0; /* 防止内容溢出 */
+}
+
+/* 移动端select字段背景色修正 */
+@media screen and (max-width: 1000px) {
+  select,
+  select.J-paginationjs-size-select,
+  #themes,
+  #example_messages_behavior,
+  #main_api,
+  #chat_completion_source,
+  #persona_sort_order,
+  #persona_description_position,
+  select[id*='preset'],
+  select[id*='template'],
+  select[id*='theme'] {
+    background-color: var(--pixel-input-bg) !important; /* 移动端统一输入框背景色 */
+    color: var(--pixel-text) !important; /* 月光白文字 */
+    -webkit-appearance: none; /* 移除webkit默认样式 */
+    appearance: none; /* 移除默认样式 */
+  }
+
+  /* 移动端Select2组件背景色修正 */
+  .select2-selection,
+  .select2-selection--multiple,
+  .select2-selection--single {
+    background-color: var(--pixel-input-bg) !important; /* 移动端统一输入框背景色 */
+    color: var(--pixel-text) !important; /* 月光白文字 */
+  }
+
+  .select2-dropdown {
+    background-color: var(--pixel-panel-bg) !important; /* 移动端深色下拉菜单背景 */
+  }
+}
+
+/* ============================================
+  * 🎨 快捷格式化按鈕容器樣式
+  * ============================================ */
+
+/* #send_form .flex-container.flexGap5.popoutVisible: 
+  * 輸入表單中的快捷格式化按鈕容器（當可見時） */
+#send_form .flex-container.flexGap5.popoutVisible {
+  background-color: var(--pixel-panel-bg) !important; /* 柔和玫瑰粉背景 */
+  border: none !important; /* 移除邊框以融入背景 */
+  box-shadow: none !important; /* 移除陰影保持簡潔 */
+  border-radius: 4px !important; /* 輕微圓角 */
+}
+
+/* 快捷格式化容器內部按鈕的預設樣式 */
+#send_form .flex-container.flexGap5.popoutVisible .menu_button {
+  background: var(--pixel-user-accent) !important; /* 天藍色背景 */
+  color: var(--pixel-text) !important; /* 深棕色文字 */
+  border: 2px solid var(--pixel-user-accent) !important; /* 天藍色邊框 */
+}
+
+/* 快捷格式化按鈕的懸停狀態 */
+#send_form .flex-container.flexGap5.popoutVisible .menu_button:hover {
+  background: var(--pixel-user-shadow) !important; /* 懸停時變為深天藍色 */
+  border-color: var(--pixel-user-shadow) !important; /* 邊框變為深天藍色 */
+}
+
+/* ============================================
+  * 🎭 彈窗系統樣式（遮罩、容器、互動）
+  * ============================================ */
+
+/* 彈窗背景遮罩層樣式：
+  * #shadow_character_popup: 角色選擇彈窗的遮罩
+  * #shadow_select_chat_popup: 聊天選擇彈窗的遮罩
+  * .popup_shadow: 通用彈窗遮罩類名 */
+#shadow_character_popup,
+#shadow_select_chat_popup,
+.popup_shadow {
+  background-color: rgba(26, 26, 46, 0.5) !important; /* 半透明的深蓝色 */
+  -webkit-backdrop-filter: blur(12px); /* WebKit背景模糊效果 */
+  backdrop-filter: blur(12px); /* 標準背景模糊效果 */
+}
+
+/* 彈窗主體容器統一樣式：
+  * #character_popup: 角色詳細信息彈窗
+  * #select_chat_popup: 聊天選擇彈窗
+  * #character_context_menu: 角色右鍵菜單
+  * #dialogue_del_mes: 刪除消息確認彈窗
+  * .popup-content: 通用彈窗內容類
+  * .popup_body: 通用確認彈窗主體類
+  * .gradio-container .popup: Gradio框架彈窗兼容 */
+#character_popup,
+#select_chat_popup,
+#character_context_menu,
+#dialogue_del_mes,
+.popup-content,
+.popup_body {
+  background-color: #2a363b !important;
+}
+.popup_body,
+.gradio-container .popup {
+  /* 柔和對角線漸變背景：從苔藓石到深邃色 */
+  background: linear-gradient(135deg, var(--pixel-panel-bg), #2c2c3e) !important;
+  border: 2px solid var(--pixel-border) !important; /* 设置2像素的边框 */
+  /* 创建像素风格的多层阴影 */
+  box-shadow:
+    3px 3px 0px var(--pixel-shadow),
+    5px 5px 0px var(--pixel-border) !important;
+  border-radius: 4px !important; /* 添加轻微的圆角 */
+  color: var(--pixel-text) !important; /* 月光白文字 */
+  z-index: 10002 !important; /* 與 Completion Prompt Manager 相同層級 */
+  position: relative !important; /* 確保 z-index 生效 */
+}
+
+/* 角色右鍵菜單的特殊樣式處理 */
+
+/* #character_context_menu: 角色右鍵點擊彈出的上下文菜單 */
+#character_context_menu {
+  padding: 5px; /* 菜單內邊距 */
+}
+
+/* #character_context_menu ul: 右鍵菜單的列表容器 */
+#character_context_menu ul {
+  list-style: none; /* 移除列表樣式 */
+  padding: 0; /* 移除內邊距 */
+  margin: 0; /* 移除外邊距 */
+}
+
+/* #character_context_menu li button: 右鍵菜單中的按鈕項目 */
+#character_context_menu li button {
+  font-family: var(--pixel-font) !important; /* 像素風格字體 */
+  background: transparent !important; /* 透明背景 */
+  border: none !important; /* 無邊框 */
+  color: var(--pixel-text) !important; /* 深棕色文字 */
+  width: 100%; /* 占滿容器寬度 */
+  text-align: left; /* 文字左對齊 */
+  padding: 8px 12px; /* 上下8px、左右12px內邊距 */
+  border-radius: 2px; /* 微圆角 */
+}
+
+/* #character_context_menu li button:hover: 右鍵菜單按鈕懸停效果 */
+#character_context_menu li button:hover {
+  background: var(--pixel-accent-hover) !important; /* 懸停時背景變為亮琥珀 */
+  color: #101a1a !important; /* 深邃樹影色文字 */
+}
+
+/* 彈窗標題樣式統一設定：
+  * #character_popup h4: 角色彈窗的h4標題
+  * #select_chat_popup h3: 聊天選擇彈窗的h3標題
+  * #selectChatPopupHeaderText: 聊天選擇彈窗標題文字 */
+#character_popup h4,
+#select_chat_popup h3,
+#selectChatPopupHeaderText {
+  color: var(--pixel-text-light) !important; /* 晨雾灰文字 */
+  font-size: 16px !important; /* 標題字體大小 */
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5); /* 半透明黑色文字陰影 */
+  border-bottom: 2px dotted var(--pixel-border); /* 點狀下邊框分隔線 */
+  padding-bottom: 5px; /* 下內邊距 */
+  margin-bottom: 10px; /* 下外邊距 */
+}
+
+/* 彈窗內部按鈕的主題樣式應用：
+  * #character_popup .menu_button: 角色彈窗內的按鈕
+  * #select_chat_popup .menu_button: 聊天選擇彈窗內的按鈕
+  * #dialogue_del_mes .menu_button: 刪除消息確認彈窗內的按鈕 */
+#character_popup .menu_button,
+#select_chat_popup .menu_button,
+#dialogue_del_mes .menu_button {
+  font-family: var(--pixel-font) !important; /* 像素風格字體 */
+  background: linear-gradient(135deg, var(--pixel-accent), var(--pixel-accent-hover)) !important; /* 琥珀色漸變背景 */
+  color: #101a1a !important; /* 深邃樹影色文字 */
+  border: 2px solid var(--pixel-accent-shadow) !important; /* 暗琥珀邊框 */
+  border-radius: 4px !important; /* 輕微圓角 */
+  box-shadow: 2px 2px 0px 0px var(--pixel-accent-shadow) !important; /* 像素風格陰影 */
+  transition: all 0.1s ease-in-out; /* 平滑過渡動畫 */
+  position: relative; /* 相對定位 */
+  top: 0; /* 初始垂直位置 */
+  left: 0; /* 初始水平位置 */
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.3); /* 浅色文字陰影 */
+}
+
+/* 彈窗按鈕懸停效果 */
+#character_popup .menu_button:hover,
+#select_chat_popup .menu_button:hover,
+#dialogue_del_mes .menu_button:hover {
+  background: linear-gradient(135deg, var(--pixel-accent-hover), var(--pixel-accent)) !important; /* 反转渐变方向 */
+  transform: translate(1px, 1px); /* 輕微位移模擬按下 */
+  box-shadow: 1px 1px 0px 0px var(--pixel-accent-shadow) !important; /* 縮小陰影 */
+}
+
+/* 彈窗按鈕點擊效果 */
+#character_popup .menu_button:active,
+#select_chat_popup .menu_button:active,
+#dialogue_del_mes .menu_button:active {
+  transform: translate(2px, 2px); /* 更大位移模擬完全按下 */
+  box-shadow: 0px 0px 0px 0px var(--pixel-accent-shadow) !important; /* 陰影消失 */
+}
+
+/* .popup_text: 通用確認彈窗內的文本區域樣式 */
+.popup_text {
+  font-family: var(--pixel-font) !important; /* 像素風格字體 */
+  color: var(--pixel-text) !important; /* 深棕色文字 */
+  font-size: 16px; /* 文字大小 */
+  padding: 10px; /* 內邊距 */
+  background-color: var(--pixel-container-bg); /* 純白背景 */
+  border: 2px solid var(--pixel-border); /* 淺粉色邊框 */
+  border-radius: 4px; /* 輕微圓角 */
+  box-shadow: inset 1px 1px 0px var(--pixel-shadow); /* 內陰影創造凹陷效果 */
+}
+
+/* ============================================
+  * ✅ 彈窗內的自定義複選框樣式
+  * ============================================ */
+
+/* .popup_body input[type="checkbox"]: 彈窗中的複選框元素 */
+.popup_body input[type='checkbox'] {
+  -webkit-appearance: none; /* 移除WebKit預設外觀 */
+  appearance: none; /* 移除標準預設外觀 */
+  background-color: var(--pixel-container-bg); /* 純白背景 */
+  margin-right: 8px; /* 與右側文字的間距 */
+  font: inherit; /* 繼承父元素字體 */
+  color: currentColor; /* 繼承當前文字顏色 */
+  width: 1.15em; /* 寬度為1.15倍字體大小 */
+  height: 1.15em; /* 高度為1.15倍字體大小 */
+  border: 2px solid var(--pixel-border); /* 淺粉色邊框 */
+  border-radius: 2px; /* 微圓角 */
+  transform: translateY(-0.075em); /* 微向上調整對齊 */
+  display: inline-grid; /* 內聯網格佈局 */
+  place-content: center; /* 內容置中 */
+  box-shadow: inset 1px 1px 0px var(--pixel-shadow); /* 內陰影創造凹陷效果 */
+}
+
+/* 複選框的勾選標記（使用偽元素實現） */
+.popup_body input[type='checkbox']::before {
+  content: ''; /* 空內容偽元素 */
+  width: 0.65em; /* 勾選標記寬度 */
+  height: 0.65em; /* 勾選標記高度 */
+  transform: scale(0); /* 初始縮放為0（隱藏） */
+  transition: 120ms transform ease-in-out; /* 120毫秒縮放動畫 */
+  background-color: var(--pixel-user-accent); /* 天空藍背景色 */
+  border-radius: 1px; /* 微小圓角 */
+}
+
+/* 複選框被勾選時的狀態 */
+.popup_body input[type='checkbox']:checked::before {
+  transform: scale(1); /* 縮放為100%（顯示） */
+}
+
+/* ============================================
+  * 💬 浮動提示樣式
+  * ============================================ */
+
+/* #floatingPrompt: AI生成時顯示的浮動提示框 */
+#floatingPrompt {
+  background: var(--pixel-panel-bg) !important; /* 柔和玫瑰粉背景 */
+  color: var(--pixel-text) !important; /* 深棕色文字 */
+  border: none !important; /* 移除邊框 */
+  border-radius: 0 !important; /* 移除圓角 */
+  box-shadow: none !important; /* 移除陰影 */
+  font-family: var(--pixel-font) !important; /* 像素風格字體 */
+  font-size: 14px !important; /* 基礎字體大小 */
+  text-shadow: none; /* 淺色背景不需要文字陰影 */
+  opacity: 0.95 !important; /* 輕微透明度 */
+}
+
+/* ============================================
+  * 🔧 輸入區域控制按鈕縮小調整
+  * ============================================ */
+
+/* #options_button: 輸入框左側的選項菜單按鈕 */
+#options_button {
+  font-size: 1rem; /* 進一步減小圖標字體大小 */
+  padding: 3px; /* 縮小內邊距 */
+}
+
+/* 輸入框右側控制按鈕組縮小調整：
+  * #rightSendForm > .stscript_btn: STscript指令按鈕
+  * #rightSendForm > .mes_stop: 停止生成按鈕
+  * #rightSendForm > .interactable: 互動元素 */
+#rightSendForm > .stscript_btn,
+#rightSendForm > .mes_stop,
+#rightSendForm > .interactable {
+  font-size: 0.95rem !important; /* 進一步減小圖標字體至95% */
+  padding: 4px !important; /* 縮小內邊距至4px */
+  line-height: 1; /* 確保圖標垂直居中 */
+}
+
+/* #send_but: 發送消息按鈕的特別調整 */
+#send_but {
+  font-size: 0.95rem !important; /* 與其他按鈕保持一致的字體大小 */
+  padding: 4px 6px !important; /* 左右4px、上下6px內邊距 */
+}
+
+/* #extensionsMenuButton: 擴展菜單按鈕縮小 */
+#extensionsMenuButton {
+  font-size: 0.95rem !important; /* 與其他按鈕保持一致的字體大小 */
+  padding: 4px !important; /* 縮小內邊距 */
+}
+
+/* #mes_stop: 停止生成按鈕的額外確保設定 */
+#mes_stop {
+  font-size: 0.95rem !important; /* 與其他按鈕保持一致的字體大小 */
+  padding: 4px !important; /* 縮小內邊距 */
+}
+
+/* ============================================
+  * 📝 面板內標題樣式統一
+  * ============================================ */
+
+/* 主要區塊標題樣式（如擴展設定、預設等）：
+  * #extensions_settings .inline-drawer-toggle.inline-drawer-header: 擴展設定中的內聯抽屉標題
+  * #extensions_settings2 .inline-drawer-toggle.inline-drawer-header: 擴展設定2中的內聯抽屉標題  
+  * .standoutHeader: 突出顯示的標題類 */
+#extensions_settings .inline-drawer-toggle.inline-drawer-header,
+#extensions_settings2 .inline-drawer-toggle.inline-drawer-header,
+.standoutHeader {
+  color: var(--pixel-text-light) !important; /* 牛奶巧克力色文字 */
+  font-size: 16px !important; /* 標題字體大小 */
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.7); /* 70%透明白色文字陰影 */
+  border-bottom: 2px solid var(--pixel-border) !important; /* 實線下邊框分隔 */
+  padding: 8px 10px !important; /* 上下8px、左右10px內邊距 */
+  margin: 0 0 10px 0 !important; /* 下外邊距10px */
+  background: rgba(19, 41, 77, 0.3) !important; /* 30%透明白色背景作為區分 */
+  width: 100%; /* 占滿容器寬度 */
+  border-radius: 3px 3px 0 0; /* 上方圓角，下方直角 */
+}
+
+/* 次要設定標題（如用戶設定內的標籤）：
+  * #user-settings-block h4: 用戶設定區塊中的h4標題 */
+#user-settings-block h4 {
+  color: var(--pixel-text-light) !important; /* 牛奶巧克力色文字 */
+  font-size: 14px !important; /* 較小的標題字體 */
+  text-shadow: none; /* 不使用文字陰影 */
+  border-bottom: 2px dotted var(--pixel-border) !important; /* 點狀下邊框區別於主標題 */
+  padding-bottom: 5px !important; /* 下內邊距 */
+  margin-bottom: 10px !important; /* 下外邊距 */
+  background: var(--pixel-accent-alt) !important; /* 豆沙色背景 */
+}
+
+/* ============================================
+  * 🔍 特殊輸入欄位樣式
+  * ============================================ */
+
+/* 各種特殊輸入欄位的統一樣式：
+  * #settingsSearch: 設定搜尋框
+  * .neo-range-input: 新式範圍輸入框
+  * .aux_field: 輔助輸入欄位
+  * #tag_import_setting: 標籤匯入設定框
+  * .widthNatural.flex1.margin0: 自然寬度的彈性輸入框 */
+#settingsSearch,
+.neo-range-input,
+.aux_field,
+#tag_import_setting,
+.widthNatural.flex1.margin0 {
+  font-family: var(--pixel-font) !important; /* 像素風格字體 */
+  background-color: var(--pixel-input-bg) !important; /* 统一输入框背景色 */
+  color: var(--pixel-text) !important; /* 月光白文字 */
+  border: 2px solid var(--pixel-border) !important; /* 雾中青石邊框 */
+  border-radius: 4px !important; /* 輕微圓角 */
+  box-shadow: inset 2px 2px 0px var(--pixel-shadow) !important; /* 內陰影凹陷效果 */
+  transition: all 0.1s ease-in-out; /* 平滑過渡動畫 */
+}
+
+/* 特殊輸入欄位獲得焦點時的樣式 */
+#settingsSearch:focus,
+.neo-range-input:focus,
+.aux_field:focus,
+#tag_import_setting:focus,
+.widthNatural.flex1.margin0:focus {
+  border-color: var(--pixel-accent-alt) !important; /* 焦點時邊框變為豆沙色 */
+  /* 使用color-mix函數創造更深的豆沙色陰影 */
+  box-shadow: inset 2px 2px 0px color-mix(in srgb, var(--pixel-accent-alt) 80%, black) !important;
+}
+
+/* ============================================
+  * 📝 特殊文本區域樣式
+  * ============================================ */
+
+/* 角色描述和首次消息文本框的統一背景色：
+  * #description_textarea: 角色描述文本區域
+  * #firstmessage_textarea: 首次消息文本區域 */
+#description_textarea,
+#firstmessage_textarea {
+  background-color: var(--pixel-input-bg) !important; /* 统一输入框背景色 */
+}
+
+/* --- 特殊弹窗层级控制 --- */
+/* 让透明对话弹窗覆盖整个页面，并修复自适应问题 */
+.popup.transparent_dialogue_popup.popup--animation-none {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  width: 100% !important; /* 使用百分比以获得更好的自适应性 */
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  z-index: 9997 !important; /* 进一步降低，确保在加载图标之下 */
+  background: linear-gradient(135deg, var(--pixel-panel-bg), #2c2c3e) !important; /* 应用夜间深色渐变背景 */
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  border: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  transform: none !important;
+  display: block !important;
+  inset: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important; /* 默认不拦截点击 */
+}
+
+/* 强制处理页面边距问题 */
+.popup.transparent_dialogue_popup.popup--animation-none::before {
+  content: '' !important;
+  position: fixed !important;
+  top: -10px !important;
+  left: -10px !important;
+  right: -10px !important;
+  bottom: -10px !important;
+  width: calc(100vw + 20px) !important;
+  height: calc(100vh + 20px) !important;
+  background: linear-gradient(135deg, var(--pixel-panel-bg), #2c2c3e) !important; /* 应用夜间深色渐变背景 */
+  z-index: -1 !important;
+}
+
+/* .load-spinner: AI生成時的加載旋轉器元素，确保在最顶层 */
+.load-spinner {
+  position: fixed !important; /* 固定定位 */
+  z-index: 100001 !important; /* 确保加载动画在最顶层 */
+  top: 50% !important; /* 垂直置中 */
+  left: 50% !important; /* 水平置中 */
+  transform: translate(-50%, -50%) !important; /* 精確中心對齊 */
+  margin: 0 !important; /* 移除外邊距 */
+  padding: 0 !important; /* 移除內邊距 */
+  pointer-events: auto !important; /* 允许自身被交互 */
+}
+
+/* 移动端特殊处理：确保AI生成时不阻挡交互 */
+@media screen and (max-width: 1000px) {
+  /* Completion Prompt Manager 移动端适配 */
+  #completion_prompt_manager_popup {
+    width: 100% !important; /* 移动端全屏宽度 */
+    height: calc(100dvh - var(--topBarBlockSize, 50px) - var(--bottomFormBlockSize, 80px)) !important;
+    top: calc(var(--topBarBlockSize, 50px)) !important; /* 紧贴顶栏*/
+    left: 0 !important;
+    right: 0 !important;
+    margin: 0 !important;
+    border-radius: 0 !important; /* 移动端移除圆角 */
+    z-index: 10000 !important; /* 确保在正确层级 */
+  }
+
+  #completion_prompt_manager_popup.drawer-content {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 0 !important;
+    box-shadow: none !important; /* 移动端简化阴影 */
+  }
+
+  /* 确保面板在移动端始终可点击 */
+  #left-nav-panel,
+  #right-nav-panel,
+  #WorldInfo,
+  #AdvancedFormatting,
+  #rm_api_block,
+  #user-settings-block,
+  #Backgrounds,
+  #rm_extensions_block,
+  #completion_prompt_manager_popup {
+    /* 添加 Prompt Manager 到可点击列表 */
+    pointer-events: auto !important;
+    z-index: 9999 !important;
+  }
+
+  /* 确保顶栏按钮在移动端可点击 */
+  /* 确保顶栏按钮在移动端可点击 */
+  #top-bar,
+  #top-bar .drawer-icon,
+  #top-settings-holder {
+    pointer-events: auto !important;
+    z-index: 10001 !important; /* 略高于面板 */
+  }
+  #top-settings-holder {
+    top: 0 !important;
+  }
+
+  /* 确保聊天区域和输入区域在AI生成时保持可交互 */
+  #chat,
+  #send_form,
+  #send_textarea,
+  #send_but,
+  #mes_stop,
+  .mes,
+  .menu_button,
+  .stscript_btn {
+    pointer-events: auto !important;
+    position: relative !important;
+    z-index: 9998 !important;
+  }
+
+  /* .mes: 每一條聊天消息的容器（包含頭像、名稱、內容） */
+.mes {
+  margin-bottom: 5px !important; /* 消息間距5像素 */
+  padding: 10px !important; /* 內邊距10像素 */
+}
+
+  /* 防止任何全屏覆盖元素在AI生成时阻挡交互 */
+  body.generating *[style*='position: fixed'],
+  body.generating *[style*='position: absolute'] {
+    pointer-events: none !important;
+  }
+
+  /* 但是保持关键交互元素可点击 */
+  body.generating #chat,
+  body.generating #send_form,
+  body.generating #top-bar,
+  body.generating .drawer-icon,
+  body.generating .menu_button,
+  body.generating .stscript_btn,
+  body.generating #left-nav-panel,
+  body.generating #right-nav-panel,
+  body.generating #completion_prompt_manager_popup {
+    /* 确保 Prompt Manager 在生成时也可点击 */
+    pointer-events: auto !important;
+  }
+}
+
+/* 修复 Android 端用户统计按钮点击问题 */
+.user_stats_button {
+  pointer-events: auto !important;
+  position: relative;
+  z-index: 10002 !important;
+}
+/* ============================================
+  * 📋 下拉選擇框背景統一樣式
+  * ============================================ */
+
+/* 所有select选择框统一背景色 */
+select,
+select.J-paginationjs-size-select,
+#themes,
+#example_messages_behavior,
+#main_api,
+#chat_completion_source,
+#persona_sort_order,
+#persona_description_position,
+select[id*='preset'],
+select[id*='template'],
+select[id*='theme'] {
+  background-color: var(--pixel-input-bg) !important; /* 统一输入框背景色 */
+  color: var(--pixel-text) !important; /* 月光白文字 */
+  border: 2px solid var(--pixel-border) !important; /* 雾中青石边框 */
+}
+
+/* ============================================
+  * 💀 危險操作按鈕警示樣式
+  * ============================================ */
+
+/* 骷髏圖標按鈕 - 危險操作的紅色警示：
+  * .menu_button.red_button.fa-skull: 帶有骷髏圖標的紅色危險按鈕
+  * .menu_button.red_button .fa-skull: 紅色按鈕內的骷髏圖標元素 */
+.menu_button.red_button.fa-skull,
+.menu_button.red_button .fa-skull {
+  color: #e53935 !important; /* 標準紅色系警示色（Material Red 600） */
+}
+/* ============================================
+  * 💻 程式碼區塊基礎樣式
+  * ============================================ */
+
+/* 🔸 行內代碼樣式（`code`） */
+code {
+  font-family: 'Courier New', Courier, monospace !important; /* 等寬字體 */
+  background-color: #3a4a4a !important; /* 幽静湖水背景，區別於代碼塊 */
+  color: var(--pixel-text) !important; /* 月光白文字 */
+  border: 1px solid var(--pixel-border) !important; /* 較細的邊框 */
+  border-radius: 3px; /* 小圓角 */
+  padding: 2px 4px; /* 緊密內邊距 */
+  font-size: 0.9em; /* 稍小的字體 */
+  white-space: nowrap; /* 不換行，保持行內特性 */
+  word-break: keep-all; /* 避免斷詞 */
+  display: inline; /* 確保行內顯示 */
+  vertical-align: baseline; /* 基線對齊 */
+}
+
+/* 🔸 代碼塊樣式（```code```） */
+pre {
+  font-family: 'Courier New', Courier, monospace !important; /* 等寬字體 */
+  background-color: #1a2a2a !important; /* 外層深林夜色背景 */
+  color: var(--pixel-text) !important; /* 月光白文字 */
+  border: 3px solid var(--pixel-border) !important; /* 外層較粗的雾中青石邊框 */
+  border-radius: 8px; /* 外層較大圓角 */
+  padding: 8px; /* 外層內邊距 */
+  font-size: 13px; /* 適中的字體大小 */
+  line-height: 1.4; /* 適當的行高，避免文字重疊 */
+  white-space: pre-wrap; /* 保持空白並自動換行 */
+  word-wrap: break-word; /* 長單詞換行 */
+  overflow-x: auto; /* 水平滾動處理長行 */
+  max-width: 100%; /* 限制最大寬度 */
+  margin: 12px 0; /* 上下外邊距 */
+  display: block; /* 確保塊級顯示 */
+  position: relative; /* 為內層容器定位提供基準 */
+}
+
+/* 🔸 代碼塊內容區域（內層框） */
+pre::before {
+  content: '';
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+  background-color: #252535 !important; /* 內層代碼背景色 */
+  border: 2px solid color-mix(in srgb, var(--pixel-border) 60%, transparent) !important; /* 內層半透明邊框 */
+  border-radius: 4px; /* 內層較小圓角 */
+  z-index: 1; /* 置於背景層 */
+}
+
+/* 🔸 確保代碼內容在內層框之上 */
+pre code {
+  position: relative;
+  z-index: 2; /* 置於內層框之上 */
+  background: transparent !important; /* 透明背景，避免雙重背景 */
+  border: none !important; /* 移除邊框 */
+  padding: 8px 12px !important; /* 內容區域內邊距 */
+  font-size: inherit !important; /* 繼承父元素字體大小 */
+  color: inherit !important; /* 繼承父元素顏色 */
+  border-radius: 0 !important; /* 移除圓角 */
+  white-space: inherit !important; /* 繼承父元素空白處理 */
+  display: block; /* 確保區塊顯示 */
+}
+
+/* 🔸 無內容時的代碼塊處理 */
+pre:not(:has(code)) {
+  padding: 16px 20px !important; /* 無code標籤時的內邊距 */
+}
+
+pre:not(:has(code))::before {
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  bottom: 4px;
+}
+
+/* 🔸 代碼塊內的行內代碼樣式重置 */
+pre code {
+  background: transparent !important; /* 透明背景，避免雙重背景 */
+  border: none !important; /* 移除邊框 */
+  padding: 0 !important; /* 移除內邊距 */
+  font-size: inherit !important; /* 繼承父元素字體大小 */
+  color: inherit !important; /* 繼承父元素顏色 */
+  border-radius: 0 !important; /* 移除圓角 */
+  white-space: inherit !important; /* 繼承父元素空白處理 */
+}
+
+/* 🔸 響應式代碼塊適配 */
+@media screen and (max-width: 768px) {
+  pre {
+    font-size: 12px; /* 移動端稍小字體 */
+    padding: 10px 12px; /* 減少內邊距 */
+    margin: 8px 0; /* 減少外邊距 */
+    border-radius: 4px; /* 較小圓角 */
+  }
+
+  code {
+    font-size: 0.85em; /* 移動端更小的行內代碼 */
+    padding: 1px 3px; /* 更緊密的內邊距 */
+  }
+}
+
+/* ============================================
+  * 📝 Markdown 引用區塊樣式
+  * ============================================ */
+
+/* 🔸 引用區塊基礎樣式（> 內容） */
+blockquote {
+  background-color: #2c2c3e !important; /* 夜间模式深色背景 */
+  color: var(--pixel-text) !important; /* 月光白文字 */
+  border-left: 4px solid var(--pixel-accent) !important; /* 左側琥珀光重點線 */
+  border-radius: 0 6px 6px 0 !important; /* 右側圓角，左側直角配合重點線 */
+  margin: 12px 0 !important; /* 上下外邊距 */
+  padding: 12px 16px 12px 20px !important; /* 左側更多內邊距配合重點線 */
+  font-style: italic; /* 斜體強調引用性質 */
+  box-shadow: 2px 2px 0px var(--pixel-shadow) !important; /* 像素風格陰影 */
+  position: relative; /* 為偽元素定位提供基準 */
+}
+
+/* 🔸 引用區塊的引號裝飾 */
+blockquote::before {
+  content: '\201C'; /* 左引號 Unicode */
+  font-size: 24px; /* 較大的引號 */
+  color: var(--pixel-accent); /* 琥珀光引號 */
+  position: absolute; /* 絕對定位 */
+  top: 8px; /* 距離頂部 */
+  left: 8px; /* 距離左側 */
+  font-weight: bold; /* 粗體引號 */
+  opacity: 0.6; /* 輕微透明度 */
+}
+
+blockquote::after {
+  content: '\201D'; /* 右引號 Unicode */
+  font-size: 24px; /* 較大的引號 */
+  color: var(--pixel-accent); /* 琥珀光引號 */
+  position: absolute; /* 絕對定位 */
+  bottom: 8px; /* 距離底部 */
+  right: 8px; /* 距離右側 */
+  font-weight: bold; /* 粗體引號 */
+  opacity: 0.6; /* 輕微透明度 */
+}
+
+/* 🔸 嵌套引用樣式 */
+blockquote blockquote {
+  background-color: #1a2a2a !important; /* 嵌套引用用更深的背景 */
+  border-left-color: var(--pixel-user-accent) !important; /* 嵌套引用用橄榄绿重點線 */
+  margin: 8px 0 !important; /* 減少嵌套引用的外邊距 */
+  font-size: 0.95em; /* 稍小的字體區別層次 */
+}
+
+/* 🔸 引用區塊內的段落樣式 */
+blockquote p {
+  margin: 0 0 8px 0 !important; /* 段落間距 */
+  line-height: 1.5; /* 適當行高提高可讀性 */
+}
+
+blockquote p:last-child {
+  margin-bottom: 0 !important; /* 最後段落移除下邊距 */
+}
+
+/* 🔸 引用區塊內的代碼樣式調整 */
+blockquote code {
+  background-color: rgba(58, 74, 74, 0.7) !important; /* 半透明深色背景 */
+  border-color: var(--pixel-accent) !important; /* 琥珀光邊框配合主題 */
+}
+
+blockquote pre {
+  background-color: rgba(26, 42, 42, 0.8) !important; /* 半透明深色背景 */
+  border-color: var(--pixel-accent) !important; /* 琥珀光邊框 */
+}
+
+/* 🔸 響應式引用區塊適配 */
+@media screen and (max-width: 768px) {
+  blockquote {
+    padding: 10px 14px 10px 18px !important; /* 移動端減少內邊距 */
+    margin: 10px 0 !important; /* 減少外邊距 */
+    font-size: 0.95em; /* 稍小字體 */
+  }
+
+  blockquote::before,
+  blockquote::after {
+    font-size: 20px; /* 移動端較小引號 */
+  }
+
+  blockquote blockquote {
+    padding: 8px 12px 8px 16px !important; /* 嵌套引用更緊密 */
+    margin: 6px 0 !important; /* 更小外邊距 */
+  }
+}
+
+/* ============================================
+  * 🌈 Highlight.js 語法高亮系統
+  * ============================================ */
+
+/* .hljs: Highlight.js 主容器樣式 */
+.hljs {
+  display: block; /* 區塊級元素 */
+  overflow-x: auto; /* 水平滾動處理長代碼行 */
+  padding: 0.5em; /* 內邊距 */
+  color: var(--pixel-text); /* 預設文字顏色 */
+  background: #252535; /* 深色背景與代碼塊一致 */
+}
+
+/* 註釋和引用 - 柔和灰色 */
+.hljs-comment,
+.hljs-quote {
+  color: #93a1a1; /* 柔和的灰色 */
+  font-style: italic; /* 斜體強調 */
+}
+
+/* 關鍵字和語言結構 - 品红色 */
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-subst {
+  color: #d33682; /* 品红色 */
+}
+
+/* 數值和變量 - 青色 */
+.hljs-number,
+.hljs-literal,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag .hljs-attr {
+  color: #2aa198; /* 青色 */
+}
+
+/* 字符串和文檔標籤 - 橄榄绿 */
+.hljs-string,
+.hljs-doctag {
+  color: #859900; /* 橄榄绿 */
+}
+
+/* 標題和選擇器 - 蓝色 */
+.hljs-title,
+.hljs-section,
+.hljs-selector-id {
+  color: #268bd2; /* 蓝色 */
+}
+
+/* 替換文本 - 正常字重 */
+.hljs-subst {
+  font-weight: normal; /* 重置為正常字重 */
+}
+
+/* 類型和類標題 - 黄色 */
+.hljs-type,
+.hljs-class .hljs-title {
+  color: #b58900; /* 黄色 */
+}
+
+/* 標籤和屬性 - 橙色 */
+.hljs-tag,
+.hljs-name,
+.hljs-attribute {
+  color: #cb4b16; /* 橙色 */
+}
+
+/* 正則表達式和鏈接 - 红色 */
+.hljs-regexp,
+.hljs-link {
+  color: #dc322f; /* 红色 */
+}
+
+/* 符號和列表項 - 紫色 */
+.hljs-symbol,
+.hljs-bullet {
+  color: #6c71c4; /* 紫色 */
+}
+
+/* 內建函數 - 青色 */
+.hljs-built_in,
+.hljs-builtin-name {
+  color: #2aa198; /* 青色 */
+}
+
+/* 元數據 - 灰色 */
+.hljs-meta {
+  color: #93a1a1;
+}
+
+/* 差異顯示 - 刪除內容 */
+.hljs-deletion {
+  background: #5c0000;
+}
+
+/* 差異顯示 - 新增內容 */
+.hljs-addition {
+  background: #005c00;
+}
+
+/* 強調文本 - 斜體 */
+.hljs-emphasis {
+  font-style: italic; /* 斜體強調 */
+}
+
+/* 強烈強調 - 粗體 */
+.hljs-strong {
+  font-weight: bold; /* 粗體強調 */
+}
+/* ============================================
+  * 🧩 Select2 高級選擇框組件樣式優化
+  * ============================================ */
+
+/* Select2 主要容器基礎樣式：
+  * .select2-selection: 單選模式的選擇框
+  * .select2-selection--multiple: 多選模式的選擇框 */
+.select2-selection,
+.select2-selection--multiple {
+  background-color: var(--pixel-input-bg) !important; /* 统一输入框背景色 */
+  border: 2px solid var(--pixel-border) !important; /* 雾中青石邊框 */
+  border-radius: 4px !important; /* 輕微圓角 */
+  box-shadow: inset 2px 2px 0px var(--pixel-shadow) !important; /* 內陰影凹陷效果 */
+  color: var(--pixel-text) !important; /* 月光白文字 */
+}
+
+/* Select2 獲得焦點時的狀態樣式 */
+.select2-container--default.select2-container--focus .select2-selection--multiple,
+.select2-container--default.select2-container--focus .select2-selection--single {
+  border-color: var(--pixel-accent) !important; /* 焦點時邊框變為琥珀光 */
+  box-shadow: inset 2px 2px 0px var(--pixel-accent-shadow) !important; /* 暗琥珀內陰影 */
+}
+
+/* 多選模式下的渲染區域 */
+.select2-selection__rendered {
+  color: var(--pixel-text) !important; /* 保持月光白文字 */
+}
+
+/* 多選模式下已選中項目的樣式：
+  * .select2-selection__choice: 選中項目的容器
+  * .select2-selection__choice__display.interactable: 可交互的選中項目顯示 */
+.select2-selection__choice,
+.select2-selection__choice__display.interactable {
+  background-color: var(--pixel-user-shadow) !important; /* 使用用戶陰影色 */
+  border: 1px solid var(--pixel-user-accent) !important;
+  color: var(--pixel-text) !important; /* 月光白文字 */
+  border-radius: 3px !important; /* 小圓角 */
+  padding: 2px 5px !important; /* 緊密內邊距 */
+  box-shadow: 1px 1px 0px var(--pixel-shadow);
+}
+
+/* 多選項目中的刪除按鈕樣式 */
+.select2-selection__choice__remove {
+  color: var(--pixel-text) !important; /* 月光白文字 */
+  font-weight: bold !important; /* 粗體強調 */
+  margin-right: 5px !important; /* 右側間距 */
+}
+
+.select2-selection__choice__remove:hover {
+  color: #ff8a80 !important; /* 淺紅色 */
+}
+
+/* Select2 下拉選單容器 */
+.select2-dropdown {
+  background-color: var(--pixel-panel-bg) !important;
+  border: 2px solid var(--pixel-border) !important;
+  border-radius: 4px !important;
+  box-shadow: 3px 3px 0px var(--pixel-shadow) !important;
+}
+
+/* 下拉選單中的一般選項 */
+.select2-results__option {
+  color: var(--pixel-text);
+}
+
+/* 懸停或鍵盤導航高亮的選項 */
+.select2-results__option--highlighted[aria-selected] {
+  background-color: var(--pixel-accent-hover) !important;
+  color: #101a1a !important; /* 夜間模式懸停文字顏色 */
+}
+
+/* 已被選中的選項 */
+.select2-results__option[aria-selected='true'] {
+  background-color: var(--pixel-user-accent) !important;
+  color: var(--pixel-text) !important;
+}
+/* ============================================
+  * 📱 平板橫屏模式適配 (iPad專用)
+  * ============================================ */
+
+/* 使用WebKit特性檢測確保只在支援觸控的設備上應用 */
+@supports (-webkit-touch-callout: none) {
+  /* 當螢幕寬度大於等於1000px時（平板橫屏模式） */
+  @media screen and (min-width: 1000px) {
+    /* 彈窗位置調整 - 確保在頂欄下方正確顯示：
+      * #character_popup: 角色詳情彈窗
+      * #world_popup: 世界設定彈窗
+      * .drawer-content: 抽屜內容區域 */
+    #character_popup,
+    #world_popup,
+    .drawer-content {
+      margin-top: 0px; /* 移除頂部外邊距 */
+      top: var(--topBarBlockSize, 50px) !important; /* 距離頂欄5px（預設值） */
+    }
+
+    /* 頂部設定區域的抽屜內容調整 */
+    #top-settings-holder .drawer .drawer-content {
+      right: 0; /* 對齊右側 */
+      left: 0; /* 對齊左側 */
+      width: var(--sheldWidth); /* 使用框架寬度變量 */
+    }
+
+    /* 左右導航面板的平板適配 */
+    #left-nav-panel,
+    #right-nav-panel {
+      margin: 0 auto; /* 水平置中 */
+      /* 頂部位置：頂欄高度 + 5px間距 */
+      top: calc(var(--topBarBlockSize, 50px));
+      /* 最大高度：100%動態視窗高度 - 頂欄高度 - 底部表單高度 */
+      border-radius: 0 0 4px 4px; /* 僅底部圓角 */
+      border-bottom: 2px solid var(--pixel-border); /* 底部淺粉色邊框 */
+    }
+  }
+}
+
+/* ============================================
+* 🧩 標籤輸入自動完成樣式修復
+* ============================================ */
+
+/* 確保自動完成菜單顯示在所有其他元素之上 */
+.ui-autocomplete {
+  z-index: 10003 !important; /* 高於彈窗和面板的z-index */
+  background-color: var(--pixel-panel-bg) !important;
+  border: none !important; /* 移除边框 */
+  box-shadow: none !important; /* 移除阴影 */
+  border-radius: 0 !important; /* 移除圆角 */
+  color: var(--pixel-text) !important;
+  padding: 5px;
+  font-family: var(--pixel-font) !important;
+}
+
+.ui-autocomplete .ui-menu-item {
+  padding: 5px 10px !important;
+  cursor: pointer;
+  color: var(--pixel-text) !important;
+  background: none !important;
+  border: none !important;
+  border-radius: 2px;
+}
+
+.ui-autocomplete .ui-menu-item:hover,
+.ui-autocomplete .ui-menu-item.ui-state-focus {
+  background-color: var(--pixel-user-accent) !important;
+  border-color: var(--pixel-user-shadow) !important;
+  color: var(--pixel-text) !important;
+}
+
+/* ============================================
+* 🔥 收藏角色區域滾動條修復
+* ============================================ */
+
+/* 收藏角色區域容器 */
+#HotSwapWrapper > div {
+  overflow-x: auto !important; /* 強制啟用水平滾動條 */
+  overflow-y: hidden; /* 隱藏垂直滾動條 */
+  flex-wrap: nowrap; /* 防止頭像換行 */
+  padding-bottom: 10px; /* 為滾動條留出空間 */
+  padding-right: 20px !important; /* 確保最後一個頭像完整顯示 */
+}
+
+/* 收藏区域滚动条样式 */
+#HotSwapWrapper > div::-webkit-scrollbar {
+  height: 8px; /* 滚动条高度 */
+}
+
+#HotSwapWrapper > div::-webkit-scrollbar-track {
+  background: transparent; /* 轨道透明 */
+}
+
+#HotSwapWrapper > div::-webkit-scrollbar-thumb {
+  background-color: color-mix(in srgb, var(--pixel-user-accent) 70%, transparent); /* 使用天空蓝色调 */
+  border-radius: 4px;
+}
+
+#HotSwapWrapper > div::-webkit-scrollbar-thumb:hover {
+  background-color: var(--pixel-user-shadow); /* 悬停时变为更深的天蓝色 */
+}
+
+/* 收藏頭像項目樣式優化 */
+#HotSwapWrapper .character_select {
+  flex-shrink: 0 !important; /* 防止頭像被壓縮 */
+  min-width: fit-content !important; /* 確保有足夠的寬度 */
+  margin-right: 10px !important; /* 增加項目間距 */
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+}
+
+/* 收藏頭像圖片樣式 */
+#HotSwapWrapper .character_select .avatar {
+  flex-shrink: 0 !important; /* 防止頭像被壓縮 */
+  margin-bottom: 5px !important; /* 與名稱的間距 */
+}
+
+/* 收藏頭像名稱樣式 */
+#HotSwapWrapper .character_select .ch_name {
+  white-space: nowrap !important; /* 防止名稱換行 */
+  overflow: visible !important; /* 確保名稱完整顯示 */
+  text-overflow: ellipsis !important; /* 超長名稱顯示省略號 */
+  max-width: 100px !important; /* 限制最大寬度 */
+}
+
+/* 移動端收藏頭像優化 */
+@media screen and (max-width: 1000px) {
+  #HotSwapWrapper > div {
+    padding-right: 15px !important; /* 移動端適度的右側內邊距 */
+    padding-left: 5px !important; /* 左側也添加少量內邊距 */
+  }
+
+  #HotSwapWrapper .character_select {
+    margin-right: 8px !important; /* 移動端適度的項目間距 */
+    min-width: 60px !important; /* 移動端最小寬度 */
+  }
+
+  #HotSwapWrapper .character_select .ch_name {
+    max-width: 80px !important; /* 移動端限制名稱寬度 */
+    font-size: 12px !important; /* 適當縮小字體 */
+  }
+}
+
+/* ============================================
+* 🎨 Prompt Manager 標題文字顏色修復
+* ============================================ */
+#completion_prompt_manager .completion_prompt_manager_header {
+  color: var(--pixel-text) !important; /* 使用主要深色文字 */
+  text-shadow: 1px 1px 0px rgba(255, 255, 255, 0.5); /* 增加可讀性 */
+}
+
+/* ============================================
+* 🎨 世界書(World Info)條目樣式修正
+* ============================================ */
+.WIEntryTitleAndStatus > .flex-container {
+  min-width: 35px; /* 增加最小寬度以防止其子元素被壓縮 */
+}
+
+.WIEntryTitleAndStatus .text_pole {
+  min-width: 50px; /* 為主要文字輸入框設置一個合理的最小寬度 */
+}
+
+/* ============================================
+* 📱 移動端導出菜單特別修復
+* ============================================ */
+
+/* 移動端專用樣式 */
+
+/* 移動端導出菜單項目優化 */
+#export_format_popup .export_format {
+  padding: 12px 16px !important; /* 增加觸摸友好的內邊距 */
+  font-size: 16px !important; /* 增大字體以便觸摸 */
+  min-height: 44px !important; /* 確保觸摸目標足夠大 */
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  touch-action: manipulation !important; /* 防止雙擊縮放 */
+}
+
+/* 移動端觸摸反饋優化 */
+#export_format_popup .export_format:active {
+  background-color: var(--pixel-user-accent) !important; /* 觸摸時天空藍背景 */
+  border-color: var(--pixel-user-shadow) !important;
+}
+
+/* 確保在AI生成時導出功能仍然可用 */
+body.generating #export_button,
+body.generating #export_format_popup,
+body.generating #export_format_popup .export_format {
+  pointer-events: auto !important;
+  z-index: 10007 !important; /* 在生成時提高層級 */
+}
+
+/* 防止移動端的覆蓋問題 */
+#export_format_popup.list-group {
+  position: fixed !important;
+  z-index: 10008 !important;
+  pointer-events: auto !important;
+
+  /* 確保菜單在視口內顯示 */
+  max-height: 80vh !important;
+  overflow-y: auto !important;
+
+  /* 添加背景遮罩效果 */
+  backdrop-filter: blur(2px) !important;
+  -webkit-backdrop-filter: blur(2px) !important;
+}

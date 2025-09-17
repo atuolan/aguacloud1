@@ -1350,7 +1350,6 @@ code {
   border-radius: 3px; /* 小圓角 */
   padding: 2px 4px; /* 緊密內邊距 */
   font-size: 0.9em; /* 稍小的字體 */
-  white-space: nowrap; /* 不換行，保持行內特性 */
   word-break: keep-all; /* 避免斷詞 */
   display: inline; /* 確保行內顯示 */
   vertical-align: baseline; /* 基線對齊 */
@@ -1414,18 +1413,6 @@ pre:not(:has(code))::before {
   right: 4px;
   bottom: 4px;
 }
-
-/* 🔸 代碼塊內的行內代碼樣式重置 */
-pre code {
-  background: transparent !important; /* 透明背景，避免雙重背景 */
-  border: none !important; /* 移除邊框 */
-  padding: 0 !important; /* 移除內邊距 */
-  font-size: inherit !important; /* 繼承父元素字體大小 */
-  color: inherit !important; /* 繼承父元素顏色 */
-  border-radius: 0 !important; /* 移除圓角 */
-  white-space: inherit !important; /* 繼承父元素空白處理 */
-}
-
 /* 🔸 響應式代碼塊適配 */
 @media screen and (max-width: 768px) {
   pre {

@@ -144,6 +144,9 @@ body {
 #logo_block .drawer-icon::before {
   content: '❒';
 } /* Logo區塊 */
+#backgrounds-button .drawer-icon::before {
+  content: "❒";
+} /* Logo區塊 */
 #extensions-settings-button .drawer-icon::before {
   content: '❑';
 } /* 擴展設定按鈕 */
